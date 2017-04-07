@@ -30,7 +30,7 @@ public class GameStateManager {
 
 		states.add(new DialogueState(this));
 
-		currState = 2;
+		currState = 1;
 
 		setStatesDown(0);
 
@@ -49,8 +49,6 @@ public class GameStateManager {
 	public void update() {
 
 		for (int i = statesDown; i >= 0; i--) {
-
-			System.out.println(i + ", " + currState);
 
 			states.get(currState - i).update();
 

@@ -33,19 +33,19 @@ public class PlayingState extends GameState {
 
 		camera.updateDimensions(stateManager.getWidth(), stateManager.getHeight());
 
-		player = new Player(stateManager.getWidth() / 2, stateManager.getHeight() / 2, 50, 100);
-
-		keys = new EntityMovementKeys(player);
-
 		MapParser mp = new MapParser();
 
 		try {
-			map = mp.getMap("/test-level.csv");
+			map = mp.getMap("/dev-level.csv");
 
 		} catch (IOException e) {
 			e.printStackTrace();
 
 		}
+
+		player = new Player(stateManager.getWidth() / 2, stateManager.getHeight() / 2, 5, map, 50, 100);
+
+		keys = new EntityMovementKeys(player);
 
 		mX = mY = 0;
 
@@ -55,6 +55,7 @@ public class PlayingState extends GameState {
 	void update() {
 
 		keys.update();
+		player.update();
 
 		double a;
 
@@ -89,6 +90,8 @@ public class PlayingState extends GameState {
 
 	@Override
 	void draw(Graphics2D g2d) {
+
+		map.highlightTile(player.getTileX(), player.getTileY() + 1);
 
 		map.draw(g2d, camera, player);
 

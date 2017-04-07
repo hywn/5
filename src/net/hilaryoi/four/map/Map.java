@@ -31,11 +31,11 @@ public class Map {
 
 		// camera is the center
 
-		int cameraUpperX = (camera.getWidth() / 2) - focus.getX();
-		int cameraUpperY = (camera.getHeight() / 2) - focus.getY();
+		int cameraUpperX = (int) ((camera.getWidth() / 2) - focus.getX());
+		int cameraUpperY = (int) ((camera.getHeight() / 2) - focus.getY());
 
-		int cameraXTile = focus.getX() / PlayingState.TILE_SIZE;
-		int cameraYTile = focus.getY() / PlayingState.TILE_SIZE;
+		int cameraXTile = focus.getTileX();
+		int cameraYTile = focus.getTileY();
 
 		int cameraTileHWidth = (camera.getWidth() / PlayingState.TILE_SIZE) / 2;
 		int cameraTileHHeight = (camera.getHeight() / PlayingState.TILE_SIZE) / 2;
@@ -45,19 +45,22 @@ public class Map {
 
 		// int renderedTiles = 0;
 
-		for (int xTile = tileOffsetX - padding; xTile < Math.min(xMax,
-				cameraXTile + cameraTileHWidth + padding); xTile++) {
+		for (int xTile = tileOffsetX - padding; xTile < Math.min(xMax, cameraXTile + cameraTileHWidth + padding); xTile++) {
 
-			for (int yTile = tileOffsetY - padding; yTile < Math.min(yMax,
-					cameraYTile + cameraTileHHeight + padding); yTile++) {
+			for (int yTile = tileOffsetY - padding; yTile < Math.min(yMax, cameraYTile + cameraTileHHeight + padding); yTile++) {
 
 				if (xTile < 0 || yTile < 0) {
 					continue;
 
 				}
 
-				terrain[yTile][xTile].draw(g2d, cameraUpperX + (xTile * PlayingState.TILE_SIZE),
-						cameraUpperY + (yTile * PlayingState.TILE_SIZE));
+				terrain[yTile][xTile].draw(g2d, cameraUpperX + (xTile * PlayingState.TILE_SIZE), cameraUpperY + (yTile * PlayingState.TILE_SIZE));
+
+				if (hX == xTile && hY == yTile) {
+
+					g2d.fillRect(cameraUpperX + (xTile * PlayingState.TILE_SIZE), cameraUpperY + (yTile * PlayingState.TILE_SIZE), PlayingState.TILE_SIZE, PlayingState.TILE_SIZE);
+
+				}
 
 				// renderedTiles++;
 
@@ -66,6 +69,27 @@ public class Map {
 		}
 
 		// System.out.println("Rendered Tiles: " + renderedTiles);
+
+	}
+
+	int hX = -1, hY = -1;
+
+	public void highlightTile(int xTile, int yTile) {
+
+		hX = xTile;
+		hY = yTile;
+
+	}
+
+	// TODO: getter?
+	public boolean isSolid(int xTile, int yTile) {
+
+		if (xTile < 0 || xTile > xMax || yTile < 0 || yTile > yMax) {
+			return true;
+
+		}
+
+		return terrain[yTile][xTile].typeId < 16;
 
 	}
 

@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.io.IOException;
 
 import net.hilaryoi.four.gui.Camera;
+import net.hilaryoi.four.map.Map;
 import net.hilaryoi.four.util.ImageUtil;
 
 public class Player extends LivingEntity {
@@ -20,8 +21,8 @@ public class Player extends LivingEntity {
 
 	Image[] sprites;
 
-	public Player(int x, int y, int width, int height) {
-		super(x, y, width, height);
+	public Player(int x, int y, float weight, Map map, int width, int height) {
+		super(x, y, weight, map, width, height);
 
 		ImageUtil iu = new ImageUtil();
 
@@ -79,7 +80,7 @@ public class Player extends LivingEntity {
 	}
 
 	@Override
-	public void updateX(int offset) {
+	public void updateX(double offset) {
 		super.updateX(offset);
 
 	}

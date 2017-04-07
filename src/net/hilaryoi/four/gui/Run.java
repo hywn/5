@@ -1,5 +1,6 @@
 package net.hilaryoi.four.gui;
 
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -12,9 +13,11 @@ public class Run {
 
 	public static void main(String[] args) {
 
+		Dimension d = new Dimension(1280, 720);
+
 		Frame f = new Frame();
 
-		GameStateManager stateManager = new GameStateManager(800, 500);
+		GameStateManager stateManager = new GameStateManager(1280, 720);
 
 		KA keys = new KA(stateManager);
 
@@ -30,7 +33,7 @@ public class Run {
 
 		f.add(g);
 
-		f.setSize(800, 500);
+		f.setSize(d);
 
 		f.addWindowListener(new WindowAdapter() {
 

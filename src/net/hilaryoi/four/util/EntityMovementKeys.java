@@ -8,7 +8,7 @@ public class EntityMovementKeys {
 
 	// controls any entity with keys
 
-	private boolean left, right, up, down;
+	private boolean left, right, up, down, jump;
 
 	Entity target;
 
@@ -36,6 +36,8 @@ public class EntityMovementKeys {
 		case (KeyEvent.VK_S):
 			down = true;
 			break;
+		case (KeyEvent.VK_SPACE):
+			jump = true;
 
 		}
 
@@ -57,13 +59,16 @@ public class EntityMovementKeys {
 		case (KeyEvent.VK_S):
 			down = false;
 			break;
+		case (KeyEvent.VK_SPACE):
+			jump = false;
 
 		}
+
 	}
 
 	public void update() {
 
-		int speed = 5;
+		int speed = 2;
 
 		if (left) {
 			target.updateX(-speed);
@@ -85,10 +90,15 @@ public class EntityMovementKeys {
 
 		}
 
+		if (jump && target.isOnGround()) {
+			target.jump();
+
+		}
+
 	}
 
 	public void release() {
-		left = right = up = down = false;
+		left = right = up = down = jump = false;
 
 	}
 
