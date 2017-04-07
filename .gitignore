@@ -1,0 +1,6 @@
+/.classpath
+/.project
+/.settings
+# Manually list all the target dirs that aren't the final jar
+/bin/
+/target/
