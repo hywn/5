@@ -36,7 +36,7 @@ public class PlayingState extends GameState {
 		MapParser mp = new MapParser();
 
 		try {
-			map = mp.getMap("/dev-level.csv");
+			map = mp.getMap("/test2-level.csv");
 
 		} catch (IOException e) {
 			e.printStackTrace();

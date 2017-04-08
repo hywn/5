@@ -73,12 +73,12 @@ public class EntityMovementKeys {
 	public void update() {
 
 		if (left) {
-			target.updateX(-speed);
+			target.moveLeft();
 
 		}
 
 		if (right) {
-			target.updateX(speed);
+			target.moveRight();
 
 		}
 

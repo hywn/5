@@ -7,8 +7,10 @@ public class Entity {
 
 	// TODO: update for tile scaling and varying framerates
 	static float MAX_VELOCITY = 20;
+	static float MAX_VELOCITY_X = 20;
 	static float GRAVITY = 1.3F;
-	static float FRICTION = 1.2F;
+	static float FRICTION_GROUND = 1.2F;
+	static float FRICTION_AIR = 0.2F;
 
 	public double x, y;
 
@@ -20,6 +22,7 @@ public class Entity {
 	boolean onGround;
 
 	// TODO: int isnt really neccessary for one, two or possibly more
+
 	int direction;
 
 	Map map;
@@ -39,7 +42,7 @@ public class Entity {
 		hWidth = width / 2;
 		hHeight = height / 2;
 
-		velocityY = 0;
+		velocityY = velocityX = 0;
 
 		onGround = false;
 
@@ -93,11 +96,57 @@ public class Entity {
 
 	}
 
+	public void moveLeft() {
+
+		velocityX(-2);
+
+	}
+
+	public void moveRight() {
+
+		velocityX(2);
+
+	}
+
+	public void velocityX(float velocityChange) {
+
+		if (Math.abs(velocityX) < MAX_VELOCITY_X) {
+			
+			System.out.println("adding " + velocityChange);
+
+			velocityX += velocityChange;
+
+		}
+
+	}
+
 	void doGravity() {
 
 		velocityY += GRAVITY;
 
 		y += velocityY;
+
+	}
+
+	void doFriction() {
+
+		if (onGround) {
+
+			velocityX -= (velocityX / Math.abs(velocityX)) * FRICTION_GROUND;
+
+		} else {
+
+			velocityX -= (velocityX / Math.abs(velocityX)) * FRICTION_AIR;
+
+		}
+
+		if (Math.abs(velocityX) < 0.4) {
+
+			velocityX = 0;
+
+		}
+
+		x += velocityX;
 
 	}
 
@@ -137,6 +186,15 @@ public class Entity {
 			}
 
 		}
+
+		if (velocityX == 0) {
+			return;
+
+		}
+
+		doFriction();
+
+		System.out.println(velocityX);
 
 	}
 
