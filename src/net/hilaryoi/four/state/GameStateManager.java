@@ -82,8 +82,6 @@ public class GameStateManager {
 
 	public void keyReleased(int keyCode) {
 
-		System.out.println(keyCode);
-
 		states.get(currState).keyReleased(keyCode);
 
 	}

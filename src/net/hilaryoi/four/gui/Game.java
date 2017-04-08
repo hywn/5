@@ -11,7 +11,7 @@ import java.awt.image.BufferStrategy;
 
 import net.hilaryoi.four.state.GameStateManager;
 
-public class Game extends Canvas implements Runnable {
+public class Game extends Canvas {
 
 	// double buffering
 	Graphics dbg;
@@ -23,7 +23,7 @@ public class Game extends Canvas implements Runnable {
 
 	KA keys;
 
-	Thread gameLoop;
+	Thread logicThread, renderThread;
 
 	GameStateManager stateManager;
 
@@ -43,7 +43,8 @@ public class Game extends Canvas implements Runnable {
 
 		setIgnoreRepaint(true);
 
-		gameLoop = new Thread(this);
+		logicThread = new Thread(new LogicThread());
+		renderThread = new Thread(new RenderThread());
 
 		this.addFocusListener(new FocusAdapter() {
 
@@ -59,60 +60,108 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	public void start() {
-		gameLoop.start();
+		logicThread.start();
+		renderThread.start();
 
 	}
 
-	@Override
-	public void run() {
+	class LogicThread implements Runnable {
 
-		long last_update = System.nanoTime();
+		@Override
+		public void run() {
 
-		final int TARGET_FPS = 60;
-		final double TARGET_TIME = 1000000000 / TARGET_FPS;
+			long last_update = System.nanoTime();
 
-		int fps = 0;
-		long last_fps = 0;
+			final int TARGET_FPS = 60;
+			final double TARGET_TIME = 1000000000 / TARGET_FPS;
 
-		while (true) {
+			int fps = 0;
+			long last_fps = 0;
 
-			long now = System.nanoTime();
+			while (true) {
 
-			long difference = now - last_update;
+				// update counter every second
 
-			// System.out.println(difference);
+				long now = System.nanoTime();
 
-			fps++;
-			last_fps += difference;
+				fps++;
+				last_fps += now - last_update;
 
-			// update every second
-			if (last_fps > 1000000000) {
+				last_update = now;
 
-				System.out.println(fps);
+				if (last_fps > 1000000000) {
 
-				fps = 0;
+					System.out.println(fps);
 
-				last_fps = 0;
+					fps = 0;
 
-			}
+					last_fps = 0;
 
-			last_update = now;
+				}
 
-			// double delta = difference / TARGET_TIME;
+				update();
 
-			update();
+				try {
 
-			render();
+					Thread.sleep((long) ((System.nanoTime() - last_update + TARGET_TIME) / 1000000));
 
-			try {
+				} catch (InterruptedException e) {
+					e.printStackTrace();
 
-				Thread.sleep((long) ((System.nanoTime() - last_update + TARGET_TIME) / 1000000));
-
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+				}
 
 			}
 
+		}
+
+	}
+
+	class RenderThread implements Runnable {
+
+		@Override
+		public void run() {
+
+			long last_update = System.nanoTime();
+
+			final int TARGET_FPS = 59;
+			final double TARGET_TIME = 1000000000 / TARGET_FPS;
+
+			int fps = 0;
+			long last_fps = 0;
+
+			while (true) {
+
+				// update counter every second
+
+				long now = System.nanoTime();
+
+				fps++;
+				last_fps += now - last_update;
+
+				last_update = now;
+
+				if (last_fps > 1000000000) {
+
+					System.out.println(fps);
+
+					fps = 0;
+
+					last_fps = 0;
+
+				}
+
+				render();
+
+				try {
+
+					Thread.sleep((long) ((System.nanoTime() - last_update + TARGET_TIME) / 1000000));
+
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+
+				}
+
+			}
 		}
 
 	}

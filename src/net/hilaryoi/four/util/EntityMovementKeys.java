@@ -68,9 +68,9 @@ public class EntityMovementKeys {
 
 	}
 
-	public void update() {
+	int speed = 8;
 
-		int speed = 4;
+	public void update() {
 
 		if (left) {
 			target.updateX(-speed);

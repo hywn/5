@@ -8,11 +8,12 @@ public class Entity {
 	// TODO: update for tile scaling and varying framerates
 	static float MAX_VELOCITY = 20;
 	static float GRAVITY = 1.3F;
+	static float FRICTION = 1.2F;
 
 	public double x, y;
 
 	public float weight;
-	public float velocityY;
+	public float velocityX, velocityY;
 
 	public int hWidth, hHeight, width, height;
 
@@ -78,10 +79,6 @@ public class Entity {
 	// hHeight puts it in the middle i think
 	public int getTileX() {
 
-		System.out.println(x);
-
-		System.out.println((x / PlayingState.TILE_SIZE));
-
 		return (int) (x / PlayingState.TILE_SIZE);
 
 	}
@@ -140,8 +137,6 @@ public class Entity {
 			}
 
 		}
-
-		System.out.println(velocityY);
 
 	}
 

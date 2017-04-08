@@ -20,6 +20,7 @@ public class Player extends LivingEntity {
 	int walkCycle;
 
 	public Player(int x, int y, float weight, Map map, int width, int height) {
+
 		super(x, y, weight, map, width, height);
 
 		ImageUtil iu = new ImageUtil();
@@ -40,8 +41,6 @@ public class Player extends LivingEntity {
 
 	public void draw(Graphics2D g2d, Camera camera) {
 
-		System.out.println(direction);
-
 		g2d.setColor(Color.RED);
 
 		g2d.fillRect(camera.getX() - hWidth, camera.getY() - height, width, height);
@@ -52,7 +51,14 @@ public class Player extends LivingEntity {
 
 	@Override
 	public void updateX(double offset) {
+
 		super.updateX(offset);
+
+		walkCycle += 1;
+
+		if (walkCycle > 2) {
+			walkCycle = 0;
+		}
 
 	}
 
