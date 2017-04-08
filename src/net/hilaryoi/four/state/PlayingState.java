@@ -43,7 +43,7 @@ public class PlayingState extends GameState {
 
 		}
 
-		player = new Player(stateManager.getWidth() / 2, stateManager.getHeight() / 2, 5, map, 50, 100);
+		player = new Player(100, 100, 5, map, 40, 100);
 
 		keys = new EntityMovementKeys(player);
 
@@ -56,19 +56,6 @@ public class PlayingState extends GameState {
 
 		keys.update();
 		player.update();
-
-		double a;
-
-		double yDif = camera.getY() - mY;
-		double xDif = camera.getX() - mX;
-
-		a = Math.atan(yDif / xDif);
-
-		a = Math.round(Math.toDegrees(a));
-
-		a += -90 * getFactor(xDif);
-
-		player.setAngle(a);
 
 	}
 
@@ -91,7 +78,7 @@ public class PlayingState extends GameState {
 	@Override
 	void draw(Graphics2D g2d) {
 
-		map.highlightTile(player.getTileX(), player.getTileY() + 1);
+		map.highlightTile(player.getTileX(), player.getTileY());
 
 		map.draw(g2d, camera, player);
 

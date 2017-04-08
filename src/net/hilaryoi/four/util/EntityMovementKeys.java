@@ -26,9 +26,11 @@ public class EntityMovementKeys {
 
 		case (KeyEvent.VK_A):
 			left = true;
+			target.setDirection(0);
 			break;
 		case (KeyEvent.VK_D):
 			right = true;
+			target.setDirection(1);
 			break;
 		case (KeyEvent.VK_W):
 			up = true;
@@ -68,7 +70,7 @@ public class EntityMovementKeys {
 
 	public void update() {
 
-		int speed = 2;
+		int speed = 4;
 
 		if (left) {
 			target.updateX(-speed);

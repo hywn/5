@@ -14,9 +14,12 @@ public class Entity {
 	public float weight;
 	public float velocityY;
 
-	public int hWidth, hHeight;
+	public int hWidth, hHeight, width, height;
 
 	boolean onGround;
+
+	// TODO: int isnt really neccessary for one, two or possibly more
+	int direction;
 
 	Map map;
 
@@ -28,6 +31,9 @@ public class Entity {
 		this.weight = weight;
 
 		this.map = map;
+
+		this.width = width;
+		this.height = height;
 
 		hWidth = width / 2;
 		hHeight = height / 2;
@@ -62,6 +68,11 @@ public class Entity {
 
 	public double getY() {
 		return y;
+	}
+
+	public void setDirection(int direction) {
+		this.direction = direction;
+
 	}
 
 	// hHeight puts it in the middle i think
@@ -104,13 +115,6 @@ public class Entity {
 
 	public void update() {
 
-		if (map.isSolid(getTileX(), getTileY() - 1)) {
-			return;
-
-		}
-
-		// doGravity();
-
 		int tileY = getTileY();
 
 		if (map.isSolid(getTileX(), tileY)) {
@@ -119,16 +123,21 @@ public class Entity {
 
 				doGravity();
 
-			} else {
-
-				// TODO: is it faster to check or just set it all the time?
-
-				y = tileY * PlayingState.TILE_SIZE - hHeight;
-				onGround = true;
-
 			}
 
 		} else {
+
+			doGravity();
+
+			tileY = getTileY();
+
+			if (map.isSolid(getTileX(), tileY)) {
+
+				y = tileY * PlayingState.TILE_SIZE;
+				velocityY = 0;
+				onGround = true;
+
+			}
 
 		}
 
